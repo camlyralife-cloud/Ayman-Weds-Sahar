@@ -28,6 +28,18 @@ body {
   line-height: 1.6;
 }
 
+::selection {
+  background: var(--rose);
+  color: var(--cream);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -60,8 +72,9 @@ img {
 
 .event-date {
   color: var(--muted);
-  letter-spacing: 0.08em;
-  font-size: 1rem;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
   margin-top: 0.3rem;
 }
 
@@ -243,6 +256,11 @@ img {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   animation: bob 2.4s ease-in-out infinite;
+  transition: color 0.3s ease;
+}
+
+.scroll-cue:hover {
+  color: var(--gold);
 }
 
 @keyframes bob {
@@ -268,27 +286,30 @@ h2.script {
 /* Countdown */
 
 .countdown {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(60px, 90px));
+  display: flex;
   justify-content: center;
-  gap: 0.7rem;
-  margin-top: 1.8rem;
+  align-items: stretch;
+  margin-top: 2.2rem;
 }
 
 .countdown div {
-  background: var(--cream);
-  border: 1px solid var(--blush-deep);
-  border-radius: 0.9rem;
-  padding: 0.8rem 0.3rem;
-  box-shadow: 0 10px 20px rgba(156, 92, 104, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.3rem;
+  border-right: 1px solid var(--blush-deep);
   opacity: 0;
-  transform: translateY(20px) scale(0.85);
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  transform: translateY(14px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+
+.countdown div:last-child {
+  border-right: none;
 }
 
 .countdown-section.in-view .countdown div {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 .countdown-section.in-view .countdown div:nth-child(1) { transition-delay: 0.15s; }
@@ -296,20 +317,21 @@ h2.script {
 .countdown-section.in-view .countdown div:nth-child(3) { transition-delay: 0.45s; }
 .countdown-section.in-view .countdown div:nth-child(4) { transition-delay: 0.6s; }
 
-.countdown div:hover {
-  transform: translateY(-4px) scale(1.04);
-  box-shadow: 0 14px 26px rgba(156, 92, 104, 0.2);
-}
-
-.countdown div:active {
-  transform: translateY(0) scale(0.94);
+.countdown-section.in-view .countdown div:hover {
+  transform: translateY(-3px);
 }
 
 .countdown span {
   display: block;
   font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-style: italic;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.countdown div:hover span {
   color: var(--rose-dark);
 }
 
@@ -324,10 +346,11 @@ h2.script {
 }
 
 .countdown small {
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
+  margin-top: 0.4rem;
 }
 
 /* Timeline */
@@ -346,13 +369,25 @@ h2.script {
   bottom: 0;
   width: 0;
   border-left: 1px dashed var(--rose);
-  transform: translateX(-50%) scaleY(0);
-  transform-origin: top;
-  transition: transform 1.2s ease;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.8s var(--ease);
 }
 
 .timeline-section.in-view .timeline::before {
-  transform: translateX(-50%) scaleY(1);
+  opacity: 1;
+}
+
+.timeline-fill {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, var(--gold), var(--rose-dark));
+  box-shadow: 0 0 8px rgba(201, 161, 90, 0.5);
+  transform: translateX(-50%);
+  transition: height 0.15s linear;
 }
 
 .timeline-row {
@@ -401,11 +436,17 @@ h2.script {
   background: var(--blush);
   border: 1.5px solid var(--rose-dark);
   transform: translateY(-50%) scale(0);
-  transition: transform 0.5s var(--ease) 0.3s;
+  transition: transform 0.5s var(--ease) 0.3s, background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .timeline-section.in-view .timeline-dot {
   transform: translateY(-50%) scale(1);
+}
+
+.timeline-dot.reached {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 5px rgba(201, 161, 90, 0.22);
 }
 
 .side-left .timeline-dot {
@@ -417,6 +458,7 @@ h2.script {
 }
 
 .timeline-icon {
+  position: relative;
   width: 136px;
   height: 136px;
   margin: 0 auto 0.15rem;
@@ -424,12 +466,28 @@ h2.script {
   display: grid;
   place-items: center;
   animation: breathe 3.6s ease-in-out infinite;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s var(--ease);
+}
+
+.timeline-icon::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 161, 90, 0.35), transparent 70%);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .timeline-row:hover .timeline-icon {
-  transform: scale(1.1) rotate(-3deg);
+  transform: scale(1.12) rotate(-3deg);
   animation-play-state: paused;
+}
+
+.timeline-row:hover .timeline-icon::before {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .timeline-row:active .timeline-icon {
@@ -437,10 +495,21 @@ h2.script {
 }
 
 .timeline-icon img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 8px 14px rgba(156, 92, 104, 0.18));
+  transition: filter 0.4s ease;
+}
+
+.timeline-row:hover .timeline-icon img {
+  filter: drop-shadow(0 10px 18px rgba(156, 92, 104, 0.3));
+}
+
+.timeline-row.reached .timeline-info strong {
+  color: var(--gold);
+  transition: color 0.5s ease;
 }
 
 @keyframes breathe {
@@ -474,6 +543,13 @@ h2.script {
   margin: 1.6rem auto 0;
   max-width: 320px;
   animation: float 4.5s ease-in-out infinite;
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.venue-image:hover {
+  animation-play-state: paused;
+  transform: scale(1.04);
+  filter: drop-shadow(0 14px 22px rgba(156, 92, 104, 0.25));
 }
 
 @keyframes float {
@@ -568,6 +644,10 @@ h2.script {
   transform: scale(1);
 }
 
+.in-view .full-card:hover {
+  transform: scale(1.015);
+}
+
 /* Click feedback */
 
 .click-fx {
@@ -589,4 +669,36 @@ h2.script {
   0% { transform: scale(0); opacity: 0.9; }
   60% { opacity: 0.55; }
   100% { transform: scale(4.5); opacity: 0; }
+}
+
+/* Respect reduced-motion preference */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-image,
+  .script,
+  .intro-cue,
+  .petals span,
+  .scroll-cue,
+  .timeline-icon,
+  .venue-image,
+  .btn-location::after {
+    animation: none !important;
+  }
+
+  .hero-parallax {
+    transform: none !important;
+  }
+
+  .reveal,
+  .countdown div,
+  .timeline-row,
+  .timeline-dot,
+  .full-card,
+  .site {
+    transition-duration: 0.01ms !important;
+  }
 }

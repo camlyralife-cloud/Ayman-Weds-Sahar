@@ -3,7 +3,9 @@
     "allow": [
       "Bash(node shot5.js)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8642/Assests/opening.mp4\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(node audit.js)",
+      "Bash(node shot-fill.js)"
     ]
   }
 }

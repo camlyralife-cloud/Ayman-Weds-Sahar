@@ -1,3 +1,5 @@
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 const weddingDate = new Date('2026-09-19T19:30:00').getTime();
 
 function setCountdownValue(id, value) {
@@ -101,20 +103,50 @@ function onScroll() {
     scrollProgress.style.width = `${Math.min(100, Math.max(0, pct))}%`;
   }
 
-  if (heroParallax) {
+  if (heroParallax && !prefersReducedMotion) {
     const offset = Math.min(window.scrollY * 0.08, 40);
     heroParallax.style.transform = `translateY(${offset}px)`;
   }
+
+  updateTimelineFill();
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-document.addEventListener('click', (event) => {
-  const fx = document.createElement('span');
-  fx.className = 'click-fx';
-  fx.style.left = `${event.clientX}px`;
-  fx.style.top = `${event.clientY}px`;
-  document.body.appendChild(fx);
-  fx.addEventListener('animationend', () => fx.remove());
-});
+const timelineTrack = document.getElementById('timelineTrack');
+const timelineFill = document.getElementById('timelineFill');
+const timelineDots = document.querySelectorAll('.timeline-dot');
+const timelineRows = document.querySelectorAll('.timeline-row');
+
+function updateTimelineFill() {
+  if (!timelineTrack || !timelineFill) return;
+
+  const rect = timelineTrack.getBoundingClientRect();
+  const readingLine = window.innerHeight * 0.62;
+  const progress = prefersReducedMotion
+    ? 1
+    : Math.min(1, Math.max(0, (readingLine - rect.top) / rect.height));
+  const fillPx = progress * rect.height;
+
+  timelineFill.style.height = `${fillPx}px`;
+
+  timelineDots.forEach((dot, i) => {
+    const dotRect = dot.getBoundingClientRect();
+    const dotOffset = dotRect.top + dotRect.height / 2 - rect.top;
+    const reached = fillPx >= dotOffset;
+    dot.classList.toggle('reached', reached);
+    if (timelineRows[i]) timelineRows[i].classList.toggle('reached', reached);
+  });
+}
+
+if (!prefersReducedMotion) {
+  document.addEventListener('click', (event) => {
+    const fx = document.createElement('span');
+    fx.className = 'click-fx';
+    fx.style.left = `${event.clientX}px`;
+    fx.style.top = `${event.clientY}px`;
+    document.body.appendChild(fx);
+    fx.addEventListener('animationend', () => fx.remove());
+  });
+}
