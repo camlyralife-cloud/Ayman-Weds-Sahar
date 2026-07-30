@@ -83,11 +83,13 @@ function revealSite() {
 
   const leftPanel = curtain.querySelector('.curtain-panel.left');
   const rightPanel = curtain.querySelector('.curtain-panel.right');
+  const seal = curtain.querySelector('.curtain-seal');
   const glow = curtain.querySelector('.curtain-glow');
   const particles = curtain.querySelectorAll('.curtain-particles span');
 
   curtain.hidden = false;
   gsap.set([leftPanel, rightPanel], { rotationY: 0, x: '0%', opacity: 1, filter: 'blur(0px)' });
+  gsap.set(seal, { opacity: 1, scale: 1 });
   gsap.set(glow, { opacity: 0 });
   gsap.set(particles, { opacity: 0 });
 
@@ -100,14 +102,16 @@ function revealSite() {
     },
   });
 
-  tl.to(glow, { opacity: 0.9, duration: 0.5 }, 0)
-    .to(particles, { opacity: 0.85, duration: 0.6, stagger: 0.06 }, 0.15)
-    .to(leftPanel, { rotationY: -24, x: '-8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.2)
-    .to(rightPanel, { rotationY: 24, x: '8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.2)
-    .call(() => site.classList.add('visible'), [], 0.6)
-    .to(glow, { opacity: 0, duration: 0.7 }, 1.6)
-    .to(particles, { opacity: 0, duration: 0.6, stagger: 0.03 }, 1.6)
-    .to(curtain, { opacity: 0, duration: 0.5 }, 2.0);
+  tl.to(seal, { scale: 1.15, duration: 0.35, ease: 'power1.out' }, 0)
+    .to(seal, { opacity: 0, scale: 0.6, duration: 0.4, ease: 'power2.in' }, 0.3)
+    .to(glow, { opacity: 0.9, duration: 0.5 }, 0.1)
+    .to(particles, { opacity: 0.85, duration: 0.6, stagger: 0.06 }, 0.2)
+    .to(leftPanel, { rotationY: -24, x: '-8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.35)
+    .to(rightPanel, { rotationY: 24, x: '8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.35)
+    .call(() => site.classList.add('visible'), [], 0.75)
+    .to(glow, { opacity: 0, duration: 0.7 }, 1.75)
+    .to(particles, { opacity: 0, duration: 0.6, stagger: 0.03 }, 1.75)
+    .to(curtain, { opacity: 0, duration: 0.5 }, 2.15);
 }
 
 document.body.style.overflow = 'hidden';
