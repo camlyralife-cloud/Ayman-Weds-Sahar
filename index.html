@@ -21,7 +21,7 @@
       <video
         id="introVideo"
         class="intro-video"
-        src="Assests/envelope-intro.mp4"
+        src="Assests/opening.mp4"
         muted
         playsinline
         preload="auto"
@@ -32,13 +32,17 @@
       </div>
     </div>
 
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <div class="site" id="site" hidden>
       <section class="hero" id="home">
-        <img
-          src="Assests/hero-card.png"
-          alt="Ayman Sharieff & Syeda Sahar Farooq — September 19, 2026, North Avenue"
-          class="hero-image"
-        />
+        <div class="hero-parallax" id="heroParallax">
+          <img
+            src="Assests/hero-card.png"
+            alt="Ayman Sharieff & Syeda Sahar Farooq — September 19, 2026, North Avenue"
+            class="hero-image"
+          />
+        </div>
         <div class="petals" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
@@ -51,9 +55,8 @@
       </section>
 
       <section class="reveal countdown-section" id="big-day">
-        <p class="eyebrow">Counting the moments until</p>
-        <h2 class="script">Our Big Day</h2>
-        <p class="event-date">19 &middot; September &middot; 2026</p>
+        <h2 class="script">Countdown</h2>
+        <p class="event-date">Until 19 September 2026</p>
         <div class="countdown" id="countdown">
           <div><span id="days">00</span><small>Days</small></div>
           <div><span id="hours">00</span><small>Hours</small></div>

@@ -58,9 +58,14 @@ let opened = false;
 
 function revealSite() {
   intro.classList.add('fade-out');
-  document.body.style.overflow = '';
   site.hidden = false;
-  setTimeout(() => intro.remove(), 900);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => site.classList.add('visible'));
+  });
+  setTimeout(() => {
+    document.body.style.overflow = '';
+    intro.remove();
+  }, 950);
 }
 
 document.body.style.overflow = 'hidden';
@@ -81,8 +86,29 @@ if (intro && introVideo && site) {
   introVideo.addEventListener('error', revealSite);
 } else if (site) {
   site.hidden = false;
+  site.classList.add('visible');
   document.body.style.overflow = '';
 }
+
+const scrollProgress = document.getElementById('scrollProgress');
+const heroParallax = document.getElementById('heroParallax');
+
+function onScroll() {
+  if (scrollProgress) {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    scrollProgress.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+  }
+
+  if (heroParallax) {
+    const offset = Math.min(window.scrollY * 0.08, 40);
+    heroParallax.style.transform = `translateY(${offset}px)`;
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
 
 document.addEventListener('click', (event) => {
   const fx = document.createElement('span');
