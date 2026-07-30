@@ -94,26 +94,6 @@ if (intro && introVideo && site) {
 
 const scrollProgress = document.getElementById('scrollProgress');
 const heroParallax = document.getElementById('heroParallax');
-
-function onScroll() {
-  if (scrollProgress) {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    scrollProgress.style.width = `${Math.min(100, Math.max(0, pct))}%`;
-  }
-
-  if (heroParallax && !prefersReducedMotion) {
-    const offset = Math.min(window.scrollY * 0.08, 40);
-    heroParallax.style.transform = `translateY(${offset}px)`;
-  }
-
-  updateTimelineFill();
-}
-
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
-
 const timelineTrack = document.getElementById('timelineTrack');
 const timelineFill = document.getElementById('timelineFill');
 const timelineDots = document.querySelectorAll('.timeline-dot');
@@ -139,6 +119,25 @@ function updateTimelineFill() {
     if (timelineRows[i]) timelineRows[i].classList.toggle('reached', reached);
   });
 }
+
+function onScroll() {
+  if (scrollProgress) {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    scrollProgress.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+  }
+
+  if (heroParallax && !prefersReducedMotion) {
+    const offset = Math.min(window.scrollY * 0.08, 40);
+    heroParallax.style.transform = `translateY(${offset}px)`;
+  }
+
+  updateTimelineFill();
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
 
 if (!prefersReducedMotion) {
   document.addEventListener('click', (event) => {
