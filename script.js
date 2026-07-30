@@ -56,18 +56,58 @@ revealElements.forEach((el) => revealObserver.observe(el));
 const intro = document.getElementById('intro');
 const introVideo = document.getElementById('introVideo');
 const site = document.getElementById('site');
+const curtain = document.getElementById('curtain');
 let opened = false;
+let revealed = false;
 
 function revealSite() {
+  if (revealed) return;
+  revealed = true;
+
   intro.classList.add('fade-out');
   site.hidden = false;
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => site.classList.add('visible'));
+
+  const canCinematic = curtain && !prefersReducedMotion && typeof gsap !== 'undefined';
+
+  if (!canCinematic) {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => site.classList.add('visible'));
+    });
+    setTimeout(() => {
+      document.body.style.overflow = '';
+      intro.remove();
+      if (curtain) curtain.remove();
+    }, 950);
+    return;
+  }
+
+  const leftPanel = curtain.querySelector('.curtain-panel.left');
+  const rightPanel = curtain.querySelector('.curtain-panel.right');
+  const glow = curtain.querySelector('.curtain-glow');
+  const particles = curtain.querySelectorAll('.curtain-particles span');
+
+  curtain.hidden = false;
+  gsap.set([leftPanel, rightPanel], { rotationY: 0, x: '0%', opacity: 1, filter: 'blur(0px)' });
+  gsap.set(glow, { opacity: 0 });
+  gsap.set(particles, { opacity: 0 });
+
+  const tl = gsap.timeline({
+    defaults: { ease: 'power2.inOut' },
+    onComplete: () => {
+      document.body.style.overflow = '';
+      intro.remove();
+      curtain.remove();
+    },
   });
-  setTimeout(() => {
-    document.body.style.overflow = '';
-    intro.remove();
-  }, 950);
+
+  tl.to(glow, { opacity: 0.9, duration: 0.5 }, 0)
+    .to(particles, { opacity: 0.85, duration: 0.6, stagger: 0.06 }, 0.15)
+    .to(leftPanel, { rotationY: -24, x: '-8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.2)
+    .to(rightPanel, { rotationY: 24, x: '8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.2)
+    .call(() => site.classList.add('visible'), [], 0.6)
+    .to(glow, { opacity: 0, duration: 0.7 }, 1.6)
+    .to(particles, { opacity: 0, duration: 0.6, stagger: 0.03 }, 1.6)
+    .to(curtain, { opacity: 0, duration: 0.5 }, 2.0);
 }
 
 document.body.style.overflow = 'hidden';
@@ -99,6 +139,8 @@ const timelineFill = document.getElementById('timelineFill');
 const timelineDots = document.querySelectorAll('.timeline-dot');
 const timelineRows = document.querySelectorAll('.timeline-row');
 
+const wasReached = new Array(timelineDots.length).fill(false);
+
 function updateTimelineFill() {
   if (!timelineTrack || !timelineFill) return;
 
@@ -111,12 +153,36 @@ function updateTimelineFill() {
 
   timelineFill.style.height = `${fillPx}px`;
 
+  let lastReachedIndex = -1;
+  const reachedStates = [];
+
   timelineDots.forEach((dot, i) => {
     const dotRect = dot.getBoundingClientRect();
     const dotOffset = dotRect.top + dotRect.height / 2 - rect.top;
     const reached = fillPx >= dotOffset;
+    reachedStates.push(reached);
+    if (reached) lastReachedIndex = i;
+
+    if (reached && !wasReached[i] && !prefersReducedMotion) {
+      dot.classList.remove('ripple');
+      void dot.offsetWidth;
+      dot.classList.add('ripple');
+    }
+    wasReached[i] = reached;
+
     dot.classList.toggle('reached', reached);
-    if (timelineRows[i]) timelineRows[i].classList.toggle('reached', reached);
+  });
+
+  reachedStates.forEach((reached, i) => {
+    const row = timelineRows[i];
+    const dot = timelineDots[i];
+    if (!row || !dot) return;
+
+    const isActive = reached && i === lastReachedIndex;
+    row.classList.toggle('active', isActive);
+    row.classList.toggle('passed', reached && !isActive);
+    row.classList.toggle('reached', reached);
+    dot.classList.toggle('active', isActive);
   });
 }
 
@@ -138,6 +204,12 @@ function onScroll() {
 
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
+
+timelineDots.forEach((dot) => {
+  dot.addEventListener('animationend', (event) => {
+    if (event.animationName === 'dotRipple') dot.classList.remove('ripple');
+  });
+});
 
 if (!prefersReducedMotion) {
   document.addEventListener('click', (event) => {
