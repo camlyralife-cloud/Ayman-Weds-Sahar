@@ -235,18 +235,6 @@ img {
   background: linear-gradient(180deg, var(--blush) 0%, var(--blush-deep) 100%);
 }
 
-.valance {
-  width: 220px;
-  margin: 0 auto 0.5rem;
-  transform-origin: top center;
-  animation: sway 6s ease-in-out infinite;
-}
-
-@keyframes sway {
-  0%, 100% { transform: rotate(-1.5deg); }
-  50% { transform: rotate(1.5deg); }
-}
-
 h2.script {
   font-size: clamp(2.2rem, 8vw, 2.8rem);
   margin: 0.2rem 0 0.6rem;
