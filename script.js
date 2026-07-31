@@ -93,6 +93,17 @@ const timelineDots = document.querySelectorAll('.timeline-dot');
 const timelineRows = document.querySelectorAll('.timeline-row');
 
 const wasReached = new Array(timelineDots.length).fill(false);
+let dotOffsets = [];
+
+function measureDotOffsets() {
+  if (!timelineTrack) return;
+  const trackRect = timelineTrack.getBoundingClientRect();
+  const trackTop = trackRect.top + window.scrollY;
+  dotOffsets = Array.from(timelineDots).map((dot) => {
+    const dotRect = dot.getBoundingClientRect();
+    return dotRect.top + window.scrollY + dotRect.height / 2 - trackTop;
+  });
+}
 
 function updateTimelineFill() {
   if (!timelineTrack || !timelineFill) return;
@@ -110,9 +121,7 @@ function updateTimelineFill() {
   const reachedStates = [];
 
   timelineDots.forEach((dot, i) => {
-    const dotRect = dot.getBoundingClientRect();
-    const dotOffset = dotRect.top + dotRect.height / 2 - rect.top;
-    const reached = fillPx >= dotOffset;
+    const reached = fillPx >= (dotOffsets[i] ?? 0);
     reachedStates.push(reached);
     if (reached) lastReachedIndex = i;
 
@@ -139,7 +148,9 @@ function updateTimelineFill() {
   });
 }
 
-function onScroll() {
+let scrollTicking = false;
+
+function handleScrollWork() {
   if (scrollProgress) {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -148,10 +159,32 @@ function onScroll() {
   }
 
   updateTimelineFill();
+  scrollTicking = false;
+}
+
+function onScroll() {
+  if (scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(handleScrollWork);
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+
+let resizeTimer;
+window.addEventListener(
+  'resize',
+  () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      measureDotOffsets();
+      handleScrollWork();
+    }, 150);
+  },
+  { passive: true }
+);
+
+measureDotOffsets();
+handleScrollWork();
 
 timelineDots.forEach((dot) => {
   dot.addEventListener('animationend', (event) => {
