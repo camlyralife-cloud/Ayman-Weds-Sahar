@@ -1126,10 +1126,11 @@ h2.script {
   .intro-cue,
   .petals span,
   .timeline-particles span,
+  .setting-particles span,
   .scroll-cue,
   .timeline-icon,
   .venue-image,
-  .btn-location::after,
+  .venue-shimmer::before,
   .timeline-dot.active,
   .timeline-dot.ripple::after {
     animation: none !important;
@@ -1147,7 +1148,12 @@ h2.script {
   .timeline-connector,
   .timeline-fill,
   .full-card,
-  .site {
+  .site,
+  .venue-frame,
+  .venue-meta,
+  .btn-venue,
+  .setting-corner,
+  .venue-glow {
     transition-duration: 0.01ms !important;
   }
 }
