@@ -1,5 +1,163 @@
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const musicStateKey = 'wedding-bg-music-state-v1';
+const audioEl = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+const musicAudioSrc = 'Assests/music.mp4';
+let userInteracted = false;
+let musicReady = false;
+let musicEnabled = true;
+
+function readMusicState() {
+  try {
+    const saved = window.sessionStorage.getItem(musicStateKey);
+    if (!saved) return null;
+    return JSON.parse(saved);
+  } catch {
+    return null;
+  }
+}
+
+function persistMusicState() {
+  try {
+    window.sessionStorage.setItem(
+      musicStateKey,
+      JSON.stringify({
+        enabled: musicEnabled,
+        userInteracted,
+        started: musicReady,
+      })
+    );
+  } catch {
+    // Ignore storage errors and continue gracefully.
+  }
+}
+
+function updateMusicToggle() {
+  if (!musicToggle || !audioEl) return;
+  const isMuted = audioEl.muted || !musicEnabled;
+  musicToggle.setAttribute('aria-pressed', String(isMuted));
+  musicToggle.title = isMuted ? 'Unmute background music' : 'Mute background music';
+  musicToggle.classList.toggle('is-muted', isMuted);
+}
+
+function stopMusic() {
+  if (!audioEl) return;
+  audioEl.pause();
+  musicReady = false;
+  persistMusicState();
+}
+
+function startMusic({ force = false } = {}) {
+  if (!audioEl) return;
+
+  if (!force && !userInteracted) return;
+  if (!musicEnabled) return;
+
+  if (!audioEl.src) {
+    audioEl.src = musicAudioSrc;
+  }
+
+  if (audioEl.currentTime > 0 && !audioEl.paused) {
+    musicReady = true;
+    persistMusicState();
+    return;
+  }
+
+  const playPromise = audioEl.play();
+  if (playPromise && typeof playPromise.then === 'function') {
+    playPromise
+      .then(() => {
+        musicReady = true;
+        persistMusicState();
+      })
+      .catch(() => {
+        musicReady = false;
+        persistMusicState();
+      });
+  } else {
+    musicReady = true;
+    persistMusicState();
+  }
+}
+
+function enableMusicFromInteraction() {
+  if (userInteracted) return;
+  userInteracted = true;
+  musicEnabled = true;
+  audioEl.muted = false;
+  updateMusicToggle();
+  startMusic({ force: true });
+  persistMusicState();
+}
+
+function toggleMusic() {
+  if (!audioEl) return;
+  musicEnabled = !musicEnabled;
+  audioEl.muted = !musicEnabled;
+  updateMusicToggle();
+  persistMusicState();
+
+  if (musicEnabled && userInteracted) {
+    startMusic({ force: true });
+  } else {
+    audioEl.pause();
+  }
+}
+
+if (audioEl) {
+  audioEl.loop = true;
+  audioEl.preload = 'auto';
+  audioEl.setAttribute('playsinline', 'true');
+
+  const savedState = readMusicState();
+  if (savedState) {
+    musicEnabled = savedState.enabled !== false;
+    userInteracted = Boolean(savedState.userInteracted);
+  }
+
+  audioEl.addEventListener('play', () => {
+    musicReady = true;
+    persistMusicState();
+  });
+
+  audioEl.addEventListener('pause', () => {
+    if (!document.hidden && musicEnabled && userInteracted) {
+      startMusic({ force: true });
+    }
+  });
+
+  audioEl.addEventListener('ended', () => {
+    if (audioEl.loop) {
+      audioEl.currentTime = 0;
+      startMusic({ force: true });
+    }
+  });
+
+  document.addEventListener('pointerdown', enableMusicFromInteraction, { once: true, passive: true });
+  document.addEventListener('keydown', enableMusicFromInteraction, { once: true });
+  document.addEventListener('touchstart', enableMusicFromInteraction, { once: true, passive: true });
+
+  if (musicToggle) {
+    musicToggle.addEventListener('click', toggleMusic);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      stopMusic();
+    } else if (userInteracted && musicEnabled) {
+      startMusic({ force: true });
+    }
+  });
+
+  window.addEventListener('pagehide', stopMusic);
+  window.addEventListener('beforeunload', stopMusic);
+
+  updateMusicToggle();
+  persistMusicState();
+  startMusic();
+}
+
 const weddingDate = new Date('2026-09-19T19:30:00').getTime();
 
 function setCountdownValue(id, value) {
