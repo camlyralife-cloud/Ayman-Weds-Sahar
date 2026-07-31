@@ -59,6 +59,17 @@ const content = document.getElementById('content');
 let opened = false;
 let unlocked = false;
 
+if (heroVideo) {
+  const startBuffering = () => {
+    heroVideo.preload = 'auto';
+  };
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(startBuffering, { timeout: 3000 });
+  } else {
+    setTimeout(startBuffering, 1500);
+  }
+}
+
 function unlockSite() {
   if (unlocked) return;
   unlocked = true;
