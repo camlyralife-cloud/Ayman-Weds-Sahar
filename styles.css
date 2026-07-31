@@ -244,7 +244,7 @@ body.opened .scroll-cue {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 28%;
+  padding: 0 24%;
 }
 
 .countdown-arch-content h2.script {
@@ -259,20 +259,30 @@ body.opened .scroll-cue {
 }
 
 .countdown-arch-content .countdown {
-  margin-top: 1.5rem;
+  margin-top: 1.4rem;
+  background: rgba(255, 253, 251, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 1rem;
+  padding: 0.7rem 0.4rem;
+  box-shadow: 0 10px 26px rgba(31, 45, 77, 0.12);
 }
 
 .countdown-arch-content .countdown div {
-  padding: 0 0.3rem;
+  padding: 0 0.4rem;
+  border-right-color: rgba(31, 45, 77, 0.14);
 }
 
 .countdown-arch-content .countdown span {
-  font-size: 1.05rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--rose-dark);
 }
 
 .countdown-arch-content .countdown small {
-  font-size: 0.42rem;
-  letter-spacing: 0.05em;
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
 }
 
 h2.script {
