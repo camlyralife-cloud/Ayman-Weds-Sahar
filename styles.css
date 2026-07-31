@@ -587,6 +587,7 @@ h2.script {
   width: 50%;
   margin-bottom: 0.3rem;
   text-align: center;
+  --icon-size: clamp(100px, 42vw, 168px);
 }
 
 .timeline-row:last-child {
@@ -655,7 +656,7 @@ h2.script {
 
 .timeline-dot {
   position: absolute;
-  top: 68px;
+  top: calc(var(--icon-size) / 2);
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -710,7 +711,7 @@ h2.script {
 
 .timeline-connector {
   position: absolute;
-  top: 68px;
+  top: calc(var(--icon-size) / 2);
   height: 1px;
   width: 0;
   background: linear-gradient(90deg, var(--gold), transparent);
@@ -732,8 +733,8 @@ h2.script {
 
 .timeline-icon {
   position: relative;
-  width: 168px;
-  height: 168px;
+  width: var(--icon-size);
+  height: var(--icon-size);
   margin: 0 auto 0.15rem;
   color: var(--rose-dark);
   transition: transform 0.4s var(--ease);
