@@ -80,13 +80,13 @@ function revealSite() {
     return;
   }
 
-  const glow = bloom.querySelector('.bloom-glow');
-  const rays = bloom.querySelector('.bloom-rays');
+  const haze = bloom.querySelector('.bloom-haze');
+  const seam = bloom.querySelector('.bloom-seam');
   const particles = bloom.querySelectorAll('.bloom-particles span');
 
   gsap.set(bloom, { opacity: 1 });
-  gsap.set(glow, { scale: 0.6 });
-  gsap.set(rays, { scale: 0.7, rotation: 0 });
+  gsap.set(haze, { opacity: 0 });
+  gsap.set(seam, { opacity: 0, scaleX: 0.12 });
   gsap.set(particles, { opacity: 0, y: 0 });
 
   const tl = gsap.timeline({
@@ -97,13 +97,13 @@ function revealSite() {
     },
   });
 
-  tl.to(glow, { scale: 1.4, duration: 1.6 }, 0)
-    .to(rays, { scale: 1.3, rotation: 18, duration: 2.2 }, 0)
-    .to(particles, { opacity: 0.85, y: -30, duration: 1.4, stagger: 0.06 }, 0.1)
-    .to(introVideo, { scale: 1.06, filter: 'blur(8px)', opacity: 0, duration: 1.3, ease: 'power2.in' }, 0.35)
-    .call(() => site.classList.add('visible'), [], 0.5)
-    .to(particles, { opacity: 0, duration: 0.5 }, 1.5)
-    .to(intro, { opacity: 0, duration: 0.9 }, 1.5);
+  tl.to(seam, { opacity: 1, duration: 0.5 }, 0)
+    .to(seam, { scaleX: 1, duration: 2, ease: 'power2.inOut' }, 0.15)
+    .to(haze, { opacity: 0.75, duration: 1.6 }, 0.2)
+    .to(particles, { opacity: 0.6, y: -30, duration: 1.8, stagger: 0.08 }, 0.3)
+    .to(introVideo, { scale: 1.05, filter: 'blur(7px)', duration: 1.8, ease: 'power2.inOut' }, 0.5)
+    .call(() => site.classList.add('visible'), [], 0.75)
+    .to(intro, { opacity: 0, duration: 1.8, ease: 'power1.inOut' }, 1.2);
 }
 
 document.body.style.overflow = 'hidden';

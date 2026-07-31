@@ -154,46 +154,34 @@ img {
   pointer-events: none;
 }
 
-.bloom-glow {
+.bloom-haze {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 60%;
-  max-width: 380px;
-  aspect-ratio: 1;
-  margin: 0;
-  transform: translate(-50%, -50%) scale(0.6);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 236, 200, 0.98), rgba(201, 161, 90, 0.4) 45%, transparent 72%);
-  filter: blur(26px);
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 45%, rgba(255, 227, 180, 0.4), transparent 70%);
   mix-blend-mode: screen;
+  opacity: 0;
 }
 
-.bloom-rays {
+.bloom-seam {
   position: absolute;
-  inset: -25%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    rgba(255, 232, 190, 0.32) 5deg,
-    transparent 12deg,
-    transparent 42deg,
-    rgba(255, 232, 190, 0.24) 48deg,
-    transparent 55deg,
-    transparent 95deg,
-    rgba(255, 232, 190, 0.28) 101deg,
-    transparent 109deg,
-    transparent 185deg,
-    rgba(255, 232, 190, 0.22) 191deg,
-    transparent 199deg,
-    transparent 255deg,
-    rgba(255, 232, 190, 0.26) 261deg,
-    transparent 269deg
-  );
-  mix-blend-mode: screen;
-  filter: blur(8px);
-  transform: scale(0.7) rotate(0deg);
+  top: 10%;
+  bottom: 10%;
+  left: 50%;
+  width: 16px;
+  transform: translateX(-50%) scaleX(0.12);
   transform-origin: center;
+  border-radius: 50%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 240, 210, 0.9) 18%,
+    rgba(255, 246, 225, 0.98) 50%,
+    rgba(255, 240, 210, 0.9) 82%,
+    transparent 100%
+  );
+  filter: blur(9px);
+  mix-blend-mode: screen;
+  opacity: 0;
 }
 
 .bloom-particles {
