@@ -199,11 +199,73 @@ body.opened .scroll-cue {
 
 /* Shared section rhythm */
 
-.countdown-section,
 .timeline-section {
   padding: 2.75rem 1.75rem;
   text-align: center;
   background: linear-gradient(180deg, var(--blush) 0%, var(--blush-deep) 100%);
+}
+
+.countdown-section {
+  position: relative;
+  padding: 2.5rem 1rem 3rem;
+  text-align: center;
+  background: linear-gradient(180deg, var(--blush) 0%, var(--blush-deep) 100%);
+}
+
+.countdown-arch-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+}
+
+.countdown-arch {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 1.1s var(--ease) 0.1s, transform 1.1s var(--ease) 0.1s;
+}
+
+.countdown-section.in-view .countdown-arch {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.countdown-arch-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 21%;
+}
+
+.countdown-arch-content .event-date {
+  margin-top: 0.4rem;
+}
+
+.countdown-arch-content .countdown {
+  margin-top: 1.7rem;
+}
+
+.countdown-arch-content .countdown div {
+  padding: 0 0.5rem;
+}
+
+.countdown-arch-content .countdown span {
+  font-size: 1.3rem;
+}
+
+.countdown-arch-content .countdown small {
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
 }
 
 h2.script {
