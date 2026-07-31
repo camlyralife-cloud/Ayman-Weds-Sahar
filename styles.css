@@ -359,8 +359,8 @@ h2.script {
   top: 0;
   width: 2px;
   height: 0;
-  background: linear-gradient(180deg, #f4c9a8 0%, var(--gold) 45%, var(--rose) 100%);
-  box-shadow: 0 0 10px rgba(201, 161, 90, 0.55);
+  background: linear-gradient(180deg, var(--rose) 0%, var(--gold) 45%, var(--rose-deep) 100%);
+  box-shadow: 0 0 10px rgba(31, 45, 77, 0.4);
   transform: translateX(-50%);
   transition: height 0.1s linear;
 }
@@ -374,8 +374,8 @@ h2.script {
   height: 11px;
   border-radius: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, #fff, var(--gold) 55%, transparent 75%);
-  box-shadow: 0 0 14px 4px rgba(201, 161, 90, 0.65);
+  background: radial-gradient(circle, #fff, var(--rose-deep) 55%, transparent 75%);
+  box-shadow: 0 0 14px 4px rgba(209, 112, 154, 0.6);
 }
 
 .timeline-row {
