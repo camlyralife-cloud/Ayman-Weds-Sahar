@@ -56,7 +56,7 @@ revealElements.forEach((el) => revealObserver.observe(el));
 const intro = document.getElementById('intro');
 const introVideo = document.getElementById('introVideo');
 const site = document.getElementById('site');
-const curtain = document.getElementById('curtain');
+const bloom = document.getElementById('bloom');
 let opened = false;
 let revealed = false;
 
@@ -64,54 +64,46 @@ function revealSite() {
   if (revealed) return;
   revealed = true;
 
-  intro.classList.add('fade-out');
   site.hidden = false;
 
-  const canCinematic = curtain && !prefersReducedMotion && typeof gsap !== 'undefined';
+  const canCinematic = bloom && !prefersReducedMotion && typeof gsap !== 'undefined';
 
   if (!canCinematic) {
+    intro.classList.add('fade-out');
     requestAnimationFrame(() => {
       requestAnimationFrame(() => site.classList.add('visible'));
     });
     setTimeout(() => {
       document.body.style.overflow = '';
       intro.remove();
-      if (curtain) curtain.remove();
     }, 950);
     return;
   }
 
-  const leftPanel = curtain.querySelector('.curtain-panel.left');
-  const rightPanel = curtain.querySelector('.curtain-panel.right');
-  const seal = curtain.querySelector('.curtain-seal');
-  const glow = curtain.querySelector('.curtain-glow');
-  const particles = curtain.querySelectorAll('.curtain-particles span');
+  const glow = bloom.querySelector('.bloom-glow');
+  const rays = bloom.querySelector('.bloom-rays');
+  const particles = bloom.querySelectorAll('.bloom-particles span');
 
-  curtain.hidden = false;
-  gsap.set([leftPanel, rightPanel], { rotationY: 0, x: '0%', opacity: 1, filter: 'blur(0px)' });
-  gsap.set(seal, { opacity: 1, scale: 1 });
-  gsap.set(glow, { opacity: 0 });
-  gsap.set(particles, { opacity: 0 });
+  gsap.set(bloom, { opacity: 1 });
+  gsap.set(glow, { scale: 0.6 });
+  gsap.set(rays, { scale: 0.7, rotation: 0 });
+  gsap.set(particles, { opacity: 0, y: 0 });
 
   const tl = gsap.timeline({
     defaults: { ease: 'power2.inOut' },
     onComplete: () => {
       document.body.style.overflow = '';
       intro.remove();
-      curtain.remove();
     },
   });
 
-  tl.to(seal, { scale: 1.15, duration: 0.35, ease: 'power1.out' }, 0)
-    .to(seal, { opacity: 0, scale: 0.6, duration: 0.4, ease: 'power2.in' }, 0.3)
-    .to(glow, { opacity: 0.9, duration: 0.5 }, 0.1)
-    .to(particles, { opacity: 0.85, duration: 0.6, stagger: 0.06 }, 0.2)
-    .to(leftPanel, { rotationY: -24, x: '-8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.35)
-    .to(rightPanel, { rotationY: 24, x: '8%', filter: 'blur(3px)', opacity: 0, duration: 1.6 }, 0.35)
-    .call(() => site.classList.add('visible'), [], 0.75)
-    .to(glow, { opacity: 0, duration: 0.7 }, 1.75)
-    .to(particles, { opacity: 0, duration: 0.6, stagger: 0.03 }, 1.75)
-    .to(curtain, { opacity: 0, duration: 0.5 }, 2.15);
+  tl.to(glow, { scale: 1.4, duration: 1.6 }, 0)
+    .to(rays, { scale: 1.3, rotation: 18, duration: 2.2 }, 0)
+    .to(particles, { opacity: 0.85, y: -30, duration: 1.4, stagger: 0.06 }, 0.1)
+    .to(introVideo, { scale: 1.06, filter: 'blur(8px)', opacity: 0, duration: 1.3, ease: 'power2.in' }, 0.35)
+    .call(() => site.classList.add('visible'), [], 0.5)
+    .to(particles, { opacity: 0, duration: 0.5 }, 1.5)
+    .to(intro, { opacity: 0, duration: 0.9 }, 1.5);
 }
 
 document.body.style.overflow = 'hidden';
