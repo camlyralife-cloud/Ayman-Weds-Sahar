@@ -2,10 +2,10 @@
   --blush: #ffffff;
   --blush-deep: #fbeef2;
   --rose: #e8a8c0;
-  --rose-deep: #d1709a;
+  --rose-deep: #b5507a;
   --rose-dark: #1f2d4d;
   --text: #4a3728;
-  --muted: #8a7361;
+  --muted: #6b5340;
   --gold: #1f2d4d;
   --cream: #fffdfb;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -50,7 +50,7 @@ img {
   font-family: 'Great Vibes', cursive;
   font-weight: 400;
   line-height: 1.3;
-  background: linear-gradient(100deg, var(--rose-dark) 25%, var(--rose) 45%, var(--rose-dark) 65%);
+  background: linear-gradient(100deg, var(--rose-dark) 25%, var(--rose-deep) 45%, var(--rose-dark) 65%);
   background-size: 260% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -67,7 +67,7 @@ img {
   text-transform: uppercase;
   letter-spacing: 0.3em;
   font-size: 0.75rem;
-  color: var(--rose);
+  color: var(--rose-deep);
   margin-bottom: 0.6rem;
 }
 
@@ -207,7 +207,7 @@ body.opened .scroll-cue {
 
 .countdown-section {
   position: relative;
-  padding: 2.5rem 1rem 3rem;
+  padding: 1rem 1rem 1.25rem;
   text-align: center;
   background: linear-gradient(180deg, var(--blush) 0%, var(--blush-deep) 100%);
 }
@@ -215,7 +215,7 @@ body.opened .scroll-cue {
 .countdown-arch-wrap {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
   aspect-ratio: 1 / 1;
 }
@@ -244,28 +244,35 @@ body.opened .scroll-cue {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 21%;
+  padding: 0 28%;
+}
+
+.countdown-arch-content h2.script {
+  font-size: clamp(1.7rem, 8vw, 2.3rem);
 }
 
 .countdown-arch-content .event-date {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
 }
 
 .countdown-arch-content .countdown {
-  margin-top: 1.7rem;
+  margin-top: 1.5rem;
 }
 
 .countdown-arch-content .countdown div {
-  padding: 0 0.5rem;
+  padding: 0 0.3rem;
 }
 
 .countdown-arch-content .countdown span {
-  font-size: 1.3rem;
+  font-size: 1.05rem;
 }
 
 .countdown-arch-content .countdown small {
-  font-size: 0.52rem;
-  letter-spacing: 0.08em;
+  font-size: 0.42rem;
+  letter-spacing: 0.05em;
 }
 
 h2.script {
@@ -728,7 +735,7 @@ h2.script {
   display: block;
   width: 100%;
   max-width: 300px;
-  margin: 3rem auto 0;
+  margin: 1.75rem auto 0;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.9s var(--ease) 0.45s, transform 0.9s var(--ease) 0.45s;
@@ -742,23 +749,26 @@ h2.script {
 /* Venue CTA */
 
 .btn-venue {
-  margin-top: 3rem;
+  position: relative;
+  margin-top: 1.6rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.7rem;
+  gap: 0.55rem;
+  padding: 0.7rem 1.85rem;
   border-radius: 999px;
-  background: var(--blush-deep);
+  border: 1px solid rgba(181, 80, 122, 0.35);
+  background: linear-gradient(180deg, var(--cream), var(--blush-deep));
   color: var(--rose-dark);
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.92rem;
+  font-style: italic;
+  font-size: 0.98rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-decoration: none;
-  box-shadow: 0 6px 14px rgba(31, 45, 77, 0.1);
+  box-shadow: 0 8px 18px rgba(31, 45, 77, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.8s var(--ease) 0.6s, transform 0.8s var(--ease) 0.6s, box-shadow 0.3s ease, background 0.3s ease;
+  transition: opacity 0.8s var(--ease) 0.6s, transform 0.8s var(--ease) 0.6s, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .setting-section.in-view .btn-venue {
@@ -767,9 +777,10 @@ h2.script {
 }
 
 .setting-section.in-view .btn-venue:hover {
-  transition: transform 0.3s var(--ease), box-shadow 0.3s ease, background 0.3s ease;
-  background: var(--cream);
-  box-shadow: 0 8px 18px rgba(31, 45, 77, 0.16);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  background: linear-gradient(180deg, #fff, var(--cream));
+  border-color: rgba(181, 80, 122, 0.6);
+  box-shadow: 0 10px 22px rgba(31, 45, 77, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transform: translateY(-2px);
 }
 
