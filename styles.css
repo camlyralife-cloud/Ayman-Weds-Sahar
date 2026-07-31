@@ -859,11 +859,8 @@ h2.script {
   .script,
   .petals span,
   .timeline-particles span,
-  .setting-particles span,
   .scroll-cue,
   .timeline-icon,
-  .venue-image,
-  .venue-shimmer::before,
   .timeline-dot.active,
   .timeline-dot.ripple::after {
     animation: none !important;
@@ -878,11 +875,8 @@ h2.script {
   .timeline-fill,
   .full-card,
   .site,
-  .venue-frame,
-  .venue-meta,
-  .btn-venue,
-  .setting-corner,
-  .venue-glow {
+  .venue-image,
+  .btn-venue {
     transition-duration: 0.01ms !important;
   }
 }
