@@ -17,39 +17,18 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="intro" id="intro">
-      <video
-        id="introVideo"
-        class="intro-video"
-        src="Assests/opening.mp4"
-        muted
-        playsinline
-        preload="auto"
-      ></video>
-      <div class="intro-overlay" id="introOverlay">
-        <img src="Assests/logo.png" alt="Ayman & Sahar monogram" class="intro-logo" />
-        <p class="intro-cue">Tap anywhere to open</p>
-      </div>
-      <div class="bloom" id="bloom" aria-hidden="true">
-        <div class="bloom-haze"></div>
-        <div class="bloom-seam"></div>
-        <div class="bloom-particles">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-      </div>
-    </div>
-
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <div class="site" id="site" hidden>
+    <div class="site" id="site">
       <section class="hero" id="home">
-        <div class="hero-parallax" id="heroParallax">
-          <img
-            src="Assests/hero-card.png"
-            alt="Ayman Sharieff & Syeda Sahar Farooq — September 19, 2026, North Avenue"
-            class="hero-image"
-          />
-        </div>
+        <video
+          id="heroVideo"
+          class="hero-video"
+          src="Assests/opening.mp4"
+          muted
+          playsinline
+          preload="auto"
+        ></video>
         <div class="petals" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
@@ -61,6 +40,7 @@
         </a>
       </section>
 
+      <div id="content" hidden>
       <section class="reveal countdown-section" id="big-day">
         <h2 class="script">Countdown</h2>
         <p class="event-date">Until 19 September 2026</p>
@@ -201,9 +181,9 @@
           <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
       </footer>
+      </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

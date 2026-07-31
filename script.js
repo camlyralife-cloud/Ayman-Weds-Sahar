@@ -53,83 +53,40 @@ const revealObserver = new IntersectionObserver(
 
 revealElements.forEach((el) => revealObserver.observe(el));
 
-const intro = document.getElementById('intro');
-const introVideo = document.getElementById('introVideo');
-const site = document.getElementById('site');
-const bloom = document.getElementById('bloom');
+const heroVideo = document.getElementById('heroVideo');
+const heroSection = document.getElementById('home');
+const content = document.getElementById('content');
 let opened = false;
-let revealed = false;
+let unlocked = false;
 
-function revealSite() {
-  if (revealed) return;
-  revealed = true;
-
-  site.hidden = false;
-
-  const canCinematic = bloom && !prefersReducedMotion && typeof gsap !== 'undefined';
-
-  if (!canCinematic) {
-    intro.classList.add('fade-out');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => site.classList.add('visible'));
-    });
-    setTimeout(() => {
-      document.body.style.overflow = '';
-      intro.remove();
-    }, 950);
-    return;
-  }
-
-  const haze = bloom.querySelector('.bloom-haze');
-  const seam = bloom.querySelector('.bloom-seam');
-  const particles = bloom.querySelectorAll('.bloom-particles span');
-
-  gsap.set(bloom, { opacity: 1 });
-  gsap.set(haze, { opacity: 0 });
-  gsap.set(seam, { opacity: 0, scaleX: 0.12 });
-  gsap.set(particles, { opacity: 0, y: 0 });
-
-  const tl = gsap.timeline({
-    defaults: { ease: 'power2.inOut' },
-    onComplete: () => {
-      document.body.style.overflow = '';
-      intro.remove();
-    },
-  });
-
-  tl.to(seam, { opacity: 1, duration: 0.5 }, 0)
-    .to(seam, { scaleX: 1, duration: 2, ease: 'power2.inOut' }, 0.15)
-    .to(haze, { opacity: 0.75, duration: 1.6 }, 0.2)
-    .to(particles, { opacity: 0.6, y: -30, duration: 1.8, stagger: 0.08 }, 0.3)
-    .to(introVideo, { scale: 1.05, filter: 'blur(7px)', duration: 1.8, ease: 'power2.inOut' }, 0.5)
-    .call(() => site.classList.add('visible'), [], 0.75)
-    .to(intro, { opacity: 0, duration: 1.8, ease: 'power1.inOut' }, 1.2);
+function unlockSite() {
+  if (unlocked) return;
+  unlocked = true;
+  if (content) content.hidden = false;
+  document.body.classList.add('opened');
+  document.body.style.overflow = '';
 }
 
 document.body.style.overflow = 'hidden';
 
-if (intro && introVideo && site) {
-  intro.addEventListener('click', () => {
+if (heroVideo && heroSection && content) {
+  heroSection.addEventListener('click', () => {
     if (opened) return;
     opened = true;
-    intro.classList.add('playing');
-    introVideo.muted = false;
-    introVideo.play().catch(() => {
-      introVideo.muted = true;
-      introVideo.play().catch(() => revealSite());
+    heroVideo.muted = false;
+    heroVideo.play().catch(() => {
+      heroVideo.muted = true;
+      heroVideo.play().catch(() => unlockSite());
     });
   });
 
-  introVideo.addEventListener('ended', revealSite);
-  introVideo.addEventListener('error', revealSite);
-} else if (site) {
-  site.hidden = false;
-  site.classList.add('visible');
-  document.body.style.overflow = '';
+  heroVideo.addEventListener('ended', unlockSite);
+  heroVideo.addEventListener('error', unlockSite);
+} else {
+  unlockSite();
 }
 
 const scrollProgress = document.getElementById('scrollProgress');
-const heroParallax = document.getElementById('heroParallax');
 const timelineTrack = document.getElementById('timelineTrack');
 const timelineFill = document.getElementById('timelineFill');
 const timelineDots = document.querySelectorAll('.timeline-dot');
@@ -188,11 +145,6 @@ function onScroll() {
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
     scrollProgress.style.width = `${Math.min(100, Math.max(0, pct))}%`;
-  }
-
-  if (heroParallax && !prefersReducedMotion) {
-    const offset = Math.min(window.scrollY * 0.08, 40);
-    heroParallax.style.transform = `translateY(${offset}px)`;
   }
 
   updateTimelineFill();
