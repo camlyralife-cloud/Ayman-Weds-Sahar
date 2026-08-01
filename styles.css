@@ -28,6 +28,7 @@ body {
   background: var(--blush-deep);
   line-height: 1.6;
   margin: 0;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -89,8 +90,7 @@ img {
   margin: 0 auto;
   background: var(--blush);
   box-shadow: 0 0 40px rgba(31, 45, 77, 0.12);
-  overflow-x: clip;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .scroll-progress {
@@ -297,10 +297,9 @@ body.opened .scroll-cue {
 
 .countdown-section {
   position: relative;
-  left: 50%;
   width: 100vw;
-  margin-left: -50vw;
-  padding: clamp(0.8rem, 2.2vw, 1.2rem) max(1rem, env(safe-area-inset-left)) clamp(1rem, 2.6vw, 1.4rem) max(1rem, env(safe-area-inset-right));
+  margin-left: calc(50% - 50vw);
+  padding: clamp(0.35rem, 1.2vw, 0.7rem) max(0.6rem, env(safe-area-inset-left)) clamp(0.75rem, 2vw, 1rem) max(0.6rem, env(safe-area-inset-right));
   text-align: center;
   background: linear-gradient(180deg, var(--blush) 0%, var(--blush-deep) 100%);
   overflow-x: hidden;
@@ -308,16 +307,21 @@ body.opened .scroll-cue {
 
 .countdown-arch-wrap {
   position: relative;
-  width: min(100%, clamp(17rem, 86vw, 34rem));
-  margin: 0 auto;
-  aspect-ratio: 1 / 1.08;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(78svh, 36rem);
 }
 
 .countdown-arch {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: min(78svh, 36rem);
   object-fit: contain;
   pointer-events: none;
   opacity: 0;
@@ -337,36 +341,36 @@ body.opened .scroll-cue {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 clamp(0.85rem, 5vw, 1.8rem);
+  padding: clamp(1rem, 6vw, 2rem) clamp(1rem, 7vw, 2.4rem);
 }
 
 .countdown-arch-content h2.script {
-  font-size: clamp(1.35rem, 6.8vw, 2.15rem);
+  font-size: clamp(1.3rem, 6.2vw, 2.1rem);
 }
 
 .countdown-arch-content .event-date {
-  margin-top: 0.4rem;
-  font-size: clamp(0.58rem, 1.8vw, 0.72rem);
+  margin-top: 0.35rem;
+  font-size: clamp(0.58rem, 1.7vw, 0.72rem);
   letter-spacing: 0.1em;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .countdown-arch-content .countdown {
-  width: min(100%, 16rem);
-  margin-top: clamp(0.8rem, 2.2vw, 1.2rem);
+  width: min(100%, 14.5rem);
+  margin-top: clamp(0.75rem, 2vw, 1.05rem);
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.25rem;
+  gap: 0.2rem;
   background: rgba(255, 253, 251, 0.82);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border-radius: 1rem;
-  padding: 0.6rem 0.35rem;
+  padding: 0.55rem 0.3rem;
   box-shadow: 0 10px 26px rgba(31, 45, 77, 0.12);
 }
 
 .countdown-arch-content .countdown div {
-  padding: 0 0.2rem;
+  padding: 0 0.15rem;
   border-right: none;
   border-left: 1px solid rgba(31, 45, 77, 0.14);
 }
@@ -376,13 +380,13 @@ body.opened .scroll-cue {
 }
 
 .countdown-arch-content .countdown span {
-  font-size: clamp(1.05rem, 4vw, 1.5rem);
+  font-size: clamp(0.95rem, 3.6vw, 1.35rem);
   font-weight: 600;
   color: var(--rose-dark);
 }
 
 .countdown-arch-content .countdown small {
-  font-size: clamp(0.44rem, 1.5vw, 0.58rem);
+  font-size: clamp(0.42rem, 1.35vw, 0.55rem);
   letter-spacing: 0.06em;
   color: var(--muted);
 }
@@ -395,25 +399,33 @@ h2.script {
 /* Countdown */
 
 .countdown {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  margin-top: 2.2rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.2rem;
+  width: min(100%, 14.5rem);
+  margin: clamp(0.75rem, 2vw, 1.05rem) auto 0;
+  padding: 0.55rem 0.3rem;
+  border-radius: 1rem;
+  background: rgba(255, 253, 251, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 10px 26px rgba(31, 45, 77, 0.12);
 }
 
 .countdown div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1.3rem;
-  border-right: 1px solid var(--blush-deep);
+  justify-content: center;
+  padding: 0 0.15rem;
+  border-left: 1px solid rgba(31, 45, 77, 0.14);
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
 }
 
-.countdown div:last-child {
-  border-right: none;
+.countdown div:first-child {
+  border-left: none;
 }
 
 .countdown-section.in-view .countdown div {
@@ -434,7 +446,7 @@ h2.script {
   display: block;
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: 2rem;
+  font-size: clamp(0.95rem, 3.6vw, 1.35rem);
   font-weight: 500;
   color: var(--text);
   transition: color 0.3s ease;
@@ -455,11 +467,11 @@ h2.script {
 }
 
 .countdown small {
-  font-size: 0.65rem;
+  font-size: clamp(0.42rem, 1.35vw, 0.55rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 /* Timeline */
