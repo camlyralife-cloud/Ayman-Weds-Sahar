@@ -102,6 +102,47 @@ img {
   box-shadow: 0 0 8px rgba(209, 112, 154, 0.5);
 }
 
+.music-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 70;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 253, 251, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--rose-dark);
+  box-shadow: 0 6px 18px rgba(31, 45, 77, 0.18);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.music-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(31, 45, 77, 0.24);
+}
+
+.music-toggle:active {
+  transform: translateY(0) scale(0.94);
+}
+
+.music-toggle .icon-off {
+  display: none;
+}
+
+.music-toggle.is-muted .icon-on {
+  display: none;
+}
+
+.music-toggle.is-muted .icon-off {
+  display: block;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(30px) scale(0.96);

@@ -19,7 +19,7 @@
   <body>
     <!-- Persistent background music: single instance, looped, started on the same
          user gesture that opens the invitation so autoplay policies allow it. -->
-    <audio id="bgMusic" src="Assests/music.mp4" loop preload="auto"></audio>
+    <audio id="bgMusic" src="Assests/music.mp4" loop preload="none"></audio>
 
     <button type="button" id="musicToggle" class="music-toggle" aria-label="Mute background music" aria-pressed="false">
       <svg class="icon-on" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -71,6 +71,27 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="reveal setting-section" id="setting">
+        <p class="eyebrow">The Venue</p>
+        <h2 class="script venue-name">North Avenue</h2>
+        <p class="setting-tagline">Where We Celebrate</p>
+
+        <img src="Assests/venue.png" alt="North Avenue" class="venue-image" loading="lazy" decoding="async" />
+
+        <a
+          class="btn-venue"
+          href="https://www.google.com/maps/search/?api=1&query=North+Avenue+Event+Space+%26+Banquet+Hall"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 21s-6.5-5.8-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.2-6.5 11-6.5 11z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
+            <circle cx="12" cy="10" r="1.8" stroke="currentColor" stroke-width="1" />
+          </svg>
+          Open in Maps
+        </a>
       </section>
 
       <section class="reveal timeline-section" id="timeline">
@@ -130,27 +151,6 @@
             </div>
           </div>
         </div>
-      </section>
-
-      <section class="reveal setting-section" id="setting">
-        <p class="eyebrow">The Venue</p>
-        <h2 class="script venue-name">North Avenue</h2>
-        <p class="setting-tagline">Where We Celebrate</p>
-
-        <img src="Assests/venue.png" alt="North Avenue" class="venue-image" loading="lazy" decoding="async" />
-
-        <a
-          class="btn-venue"
-          href="https://www.google.com/maps/search/?api=1&query=North+Avenue+Event+Space+%26+Banquet+Hall"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 21s-6.5-5.8-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.2-6.5 11-6.5 11z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
-            <circle cx="12" cy="10" r="1.8" stroke="currentColor" stroke-width="1" />
-          </svg>
-          Open in Maps
-        </a>
       </section>
 
       <section class="reveal gifts-section" id="gifts">

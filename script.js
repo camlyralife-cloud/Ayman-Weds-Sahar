@@ -107,8 +107,18 @@ function toggleMusic() {
 
 if (audioEl) {
   audioEl.loop = true;
-  audioEl.preload = 'auto';
   audioEl.setAttribute('playsinline', 'true');
+
+  // Defer eager buffering until the browser is idle so the music file (2.5MB)
+  // doesn't compete with critical page resources on first load.
+  const startMusicBuffering = () => {
+    audioEl.preload = 'auto';
+  };
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(startMusicBuffering, { timeout: 3000 });
+  } else {
+    setTimeout(startMusicBuffering, 1500);
+  }
 
   const savedState = readMusicState();
   if (savedState) {
@@ -242,11 +252,10 @@ if (heroVideo && heroSection && content) {
   heroSection.addEventListener('click', () => {
     if (opened) return;
     opened = true;
-    heroVideo.muted = false;
-    heroVideo.play().catch(() => {
-      heroVideo.muted = true;
-      heroVideo.play().catch(() => unlockSite());
-    });
+    // Video stays muted permanently — music.mp4 (started by the same click,
+    // via the document-level interaction listeners below) is the only audio.
+    heroVideo.muted = true;
+    heroVideo.play().catch(() => unlockSite());
   });
 
   heroVideo.addEventListener('ended', unlockSite);
