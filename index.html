@@ -43,11 +43,15 @@
           poster="Assests/opening-poster.jpg"
           muted
           playsinline
-          preload="metadata"
+          preload="auto"
         ></video>
+        <!-- Masks a small watermark baked into the source video (fixed position,
+             bottom-right) by blurring just that patch of the video underneath. -->
+        <div class="hero-watermark-mask" aria-hidden="true"></div>
         <div class="petals" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
+        <p class="tap-hint" id="tapHint">Tap to open</p>
         <a href="#big-day" class="scroll-cue">
           <span>Scroll Down</span>
           <svg width="16" height="24" viewBox="0 0 16 24" fill="none" aria-hidden="true">

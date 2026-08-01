@@ -27,6 +27,7 @@ body {
   color: var(--text);
   background: var(--blush-deep);
   line-height: 1.6;
+  margin: 0;
 }
 
 ::selection {
@@ -84,10 +85,11 @@ img {
 }
 
 .site {
-  max-width: 560px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
   background: var(--blush);
-  box-shadow: 0 0 60px rgba(31, 45, 77, 0.15);
+  box-shadow: 0 0 30px rgba(31, 45, 77, 0.12);
   overflow: hidden;
 }
 
@@ -169,6 +171,53 @@ body:not(.opened) .hero {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Masks a small fixed-position sparkle watermark baked into the source video */
+.hero-watermark-mask {
+  position: absolute;
+  left: 83.5%;
+  top: 90.5%;
+  transform: translate(-50%, -50%);
+  width: 11%;
+  height: 7.5%;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 253, 248, 0.1);
+  border-radius: 50%;
+  -webkit-mask-image: radial-gradient(circle, black 35%, transparent 72%);
+  mask-image: radial-gradient(circle, black 35%, transparent 72%);
+  pointer-events: none;
+}
+
+.tap-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14%;
+  transform: translateX(-50%);
+  z-index: 3;
+  margin: 0;
+  color: var(--rose-dark);
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.95), 0 0 5px rgba(255, 255, 255, 0.95);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.72rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  animation: tapPulse 2.2s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.tap-hint.is-hidden {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes tapPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
 }
 
 .petals {
@@ -922,6 +971,7 @@ h2.script {
   .petals span,
   .timeline-particles span,
   .scroll-cue,
+  .tap-hint,
   .timeline-icon,
   .timeline-dot.active,
   .timeline-dot.ripple::after {

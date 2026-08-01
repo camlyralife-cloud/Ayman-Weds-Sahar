@@ -224,19 +224,9 @@ revealElements.forEach((el) => revealObserver.observe(el));
 const heroVideo = document.getElementById('heroVideo');
 const heroSection = document.getElementById('home');
 const content = document.getElementById('content');
+const tapHint = document.getElementById('tapHint');
 let opened = false;
 let unlocked = false;
-
-if (heroVideo) {
-  const startBuffering = () => {
-    heroVideo.preload = 'auto';
-  };
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(startBuffering, { timeout: 3000 });
-  } else {
-    setTimeout(startBuffering, 1500);
-  }
-}
 
 function unlockSite() {
   if (unlocked) return;
@@ -252,6 +242,7 @@ if (heroVideo && heroSection && content) {
   heroSection.addEventListener('click', () => {
     if (opened) return;
     opened = true;
+    if (tapHint) tapHint.classList.add('is-hidden');
     // Video stays muted permanently — music.mp4 (started by the same click,
     // via the document-level interaction listeners below) is the only audio.
     heroVideo.muted = true;
