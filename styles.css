@@ -89,7 +89,8 @@ img {
   margin: 0 auto;
   background: var(--blush);
   box-shadow: 0 0 40px rgba(31, 45, 77, 0.12);
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .scroll-progress {
@@ -296,16 +297,20 @@ body.opened .scroll-cue {
 
 .countdown-section {
   position: relative;
-  padding: 1rem 1rem 1.25rem;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  padding: clamp(0.8rem, 2.2vw, 1.2rem) max(1rem, env(safe-area-inset-left)) clamp(1rem, 2.6vw, 1.4rem) max(1rem, env(safe-area-inset-right));
   text-align: center;
   background: linear-gradient(180deg, var(--blush) 0%, var(--blush-deep) 100%);
+  overflow-x: hidden;
 }
 
 .countdown-arch-wrap {
   position: relative;
-  width: min(100%, 520px);
+  width: min(100%, clamp(17rem, 86vw, 34rem));
   margin: 0 auto;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1.08;
 }
 
 .countdown-arch {
@@ -332,43 +337,52 @@ body.opened .scroll-cue {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 14%;
+  padding: 0 clamp(0.85rem, 5vw, 1.8rem);
 }
 
 .countdown-arch-content h2.script {
-  font-size: clamp(1.7rem, 8vw, 2.3rem);
+  font-size: clamp(1.35rem, 6.8vw, 2.15rem);
 }
 
 .countdown-arch-content .event-date {
-  margin-top: 0.5rem;
-  font-size: 0.62rem;
+  margin-top: 0.4rem;
+  font-size: clamp(0.58rem, 1.8vw, 0.72rem);
   letter-spacing: 0.1em;
   line-height: 1.5;
 }
 
 .countdown-arch-content .countdown {
-  margin-top: 1.4rem;
+  width: min(100%, 16rem);
+  margin-top: clamp(0.8rem, 2.2vw, 1.2rem);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.25rem;
   background: rgba(255, 253, 251, 0.82);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border-radius: 1rem;
-  padding: 0.7rem 0.4rem;
+  padding: 0.6rem 0.35rem;
   box-shadow: 0 10px 26px rgba(31, 45, 77, 0.12);
 }
 
 .countdown-arch-content .countdown div {
-  padding: 0 0.4rem;
-  border-right-color: rgba(31, 45, 77, 0.14);
+  padding: 0 0.2rem;
+  border-right: none;
+  border-left: 1px solid rgba(31, 45, 77, 0.14);
+}
+
+.countdown-arch-content .countdown div:first-child {
+  border-left: none;
 }
 
 .countdown-arch-content .countdown span {
-  font-size: 1.5rem;
+  font-size: clamp(1.05rem, 4vw, 1.5rem);
   font-weight: 600;
   color: var(--rose-dark);
 }
 
 .countdown-arch-content .countdown small {
-  font-size: 0.5rem;
+  font-size: clamp(0.44rem, 1.5vw, 0.58rem);
   letter-spacing: 0.06em;
   color: var(--muted);
 }
