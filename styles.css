@@ -85,11 +85,10 @@ img {
 }
 
 .site {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
+  width: min(100%, 720px);
+  margin: 0 auto;
   background: var(--blush);
-  box-shadow: 0 0 30px rgba(31, 45, 77, 0.12);
+  box-shadow: 0 0 40px rgba(31, 45, 77, 0.12);
   overflow: hidden;
 }
 
@@ -304,8 +303,7 @@ body.opened .scroll-cue {
 
 .countdown-arch-wrap {
   position: relative;
-  width: 100%;
-  max-width: 560px;
+  width: min(100%, 520px);
   margin: 0 auto;
   aspect-ratio: 1 / 1;
 }
@@ -334,7 +332,7 @@ body.opened .scroll-cue {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 24%;
+  padding: 0 14%;
 }
 
 .countdown-arch-content h2.script {
