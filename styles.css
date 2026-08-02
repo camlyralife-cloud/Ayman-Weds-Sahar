@@ -169,26 +169,13 @@ body:not(.opened) .hero {
 
 .hero-video {
   width: 100%;
-  height: auto;
+  /* The source file has 67px black letterbox bars baked in top and bottom
+     (measured: 7.88% of its 850px height, symmetric). This aspect-ratio +
+     cover crop scales the video until those bars fall outside the box. */
+  aspect-ratio: 478 / 716;
+  object-fit: cover;
+  object-position: center;
   display: block;
-}
-
-/* Masks a small fixed-position sparkle watermark baked into the source video */
-.hero-watermark-mask {
-  position: absolute;
-  left: 83.5%;
-  top: 90.5%;
-  transform: translate(-50%, -50%);
-  width: 11%;
-  height: 7.5%;
-  z-index: 2;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(255, 253, 248, 0.1);
-  border-radius: 50%;
-  -webkit-mask-image: radial-gradient(circle, black 35%, transparent 72%);
-  mask-image: radial-gradient(circle, black 35%, transparent 72%);
-  pointer-events: none;
 }
 
 .tap-hint {
