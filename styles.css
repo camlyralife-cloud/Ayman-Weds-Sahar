@@ -292,7 +292,7 @@ body.opened .scroll-cue {
   overflow-x: hidden;
 }
 
-.countdown-arch-wrap {
+.countdown-frame {
   position: relative;
   width: 100%;
   max-width: none;
@@ -300,15 +300,16 @@ body.opened .scroll-cue {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: min(78svh, 36rem);
+  min-height: min(90svh, 42rem);
 }
 
-.countdown-arch {
+.countdown-bg {
   position: relative;
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
-  max-height: min(78svh, 36rem);
+  max-width: 100%;
+  max-height: min(90svh, 42rem);
   object-fit: contain;
   pointer-events: none;
   opacity: 0;
@@ -316,34 +317,34 @@ body.opened .scroll-cue {
   transition: opacity 1.1s var(--ease) 0.1s, transform 1.1s var(--ease) 0.1s;
 }
 
-.countdown-section.in-view .countdown-arch {
+.countdown-section.in-view .countdown-bg {
   opacity: 1;
   transform: scale(1);
 }
 
-.countdown-arch-content {
+.countdown-frame-content {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(1rem, 6vw, 2rem) clamp(1rem, 7vw, 2.4rem);
+  padding-bottom: 16%;
 }
 
-.countdown-arch-content h2.script {
-  font-size: clamp(1.3rem, 6.2vw, 2.1rem);
+.countdown-frame-content h2.script {
+  font-size: clamp(1.5rem, 6.2vw, 2.1rem);
 }
 
-.countdown-arch-content .event-date {
+.countdown-frame-content .event-date {
   margin-top: 0.35rem;
   font-size: clamp(0.58rem, 1.7vw, 0.72rem);
   letter-spacing: 0.1em;
   line-height: 1.4;
 }
 
-.countdown-arch-content .countdown {
-  width: min(100%, 14.5rem);
+.countdown-frame-content .countdown {
+  width: min(100%, 13.5rem);
   margin-top: clamp(0.75rem, 2vw, 1.05rem);
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -353,27 +354,27 @@ body.opened .scroll-cue {
   -webkit-backdrop-filter: blur(6px);
   border-radius: 1rem;
   padding: 0.55rem 0.3rem;
-  box-shadow: 0 10px 26px rgba(31, 45, 77, 0.12);
+  box-shadow: 0 8px 22px rgba(31, 45, 77, 0.1);
 }
 
-.countdown-arch-content .countdown div {
+.countdown-frame-content .countdown div {
   padding: 0 0.15rem;
   border-right: none;
   border-left: 1px solid rgba(31, 45, 77, 0.14);
 }
 
-.countdown-arch-content .countdown div:first-child {
+.countdown-frame-content .countdown div:first-child {
   border-left: none;
 }
 
-.countdown-arch-content .countdown span {
-  font-size: clamp(0.95rem, 3.6vw, 1.35rem);
+.countdown-frame-content .countdown span {
+  font-size: clamp(0.9rem, 3.6vw, 1.3rem);
   font-weight: 600;
   color: var(--rose-dark);
 }
 
-.countdown-arch-content .countdown small {
-  font-size: clamp(0.42rem, 1.35vw, 0.55rem);
+.countdown-frame-content .countdown small {
+  font-size: clamp(0.4rem, 1.35vw, 0.52rem);
   letter-spacing: 0.06em;
   color: var(--muted);
 }
