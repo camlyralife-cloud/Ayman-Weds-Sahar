@@ -48,6 +48,13 @@
         <div class="petals" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
+        <p class="tap-hint" id="tapHint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 11.5V5a2 2 0 1 1 4 0v5.5M13 5v-.5a2 2 0 1 1 4 0V11M17 8.5a2 2 0 1 1 4 0V13M6 11V9a2 2 0 1 1 4 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 11c-1.5 0-2.5 1-2.5 2.5 0 3.5 2 8.5 7.5 8.5s8-4 8-7v-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Tap to Open
+        </p>
         <a href="#big-day" class="scroll-cue">
           <span>Scroll Down</span>
           <svg width="16" height="24" viewBox="0 0 16 24" fill="none" aria-hidden="true">
@@ -58,16 +65,21 @@
 
       <div id="content" hidden>
       <section class="reveal countdown-section" id="big-day">
+        <div class="countdown-particles" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
         <div class="countdown-arch-wrap">
           <img src="Assests/countdown arch.png" alt="" class="countdown-arch" aria-hidden="true" loading="lazy" decoding="async" />
           <div class="countdown-arch-content">
             <h2 class="script">Countdown</h2>
             <p class="event-date">Until 19 September 2026</p>
+            <div class="countdown-glow" aria-hidden="true"></div>
             <div class="countdown" id="countdown">
               <div><span id="days">00</span><small>Days</small></div>
               <div><span id="hours">00</span><small>Hours</small></div>
               <div><span id="minutes">00</span><small>Minutes</small></div>
               <div><span id="seconds">00</span><small>Seconds</small></div>
+              <span class="countdown-shimmer" aria-hidden="true"></span>
             </div>
           </div>
         </div>
