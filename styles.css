@@ -161,6 +161,8 @@ img {
 .hero {
   position: relative;
   overflow: hidden;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
 }
 
 body:not(.opened) .hero {
@@ -169,13 +171,22 @@ body:not(.opened) .hero {
 
 .hero-video {
   width: 100%;
-  /* The source file has 67px black letterbox bars baked in top and bottom
-     (measured: 7.88% of its 850px height, symmetric). This aspect-ratio +
-     cover crop scales the video until those bars fall outside the box. */
-  aspect-ratio: 478 / 716;
+  /* Mobile/tablet: native 720x1280 aspect, fully uncropped — the whole
+     composition (envelope + card) stays visible exactly as animated. */
+  aspect-ratio: 1080 / 1922;
   object-fit: cover;
   object-position: center;
   display: block;
+}
+
+/* Landscape tablets and desktop: cap the height for a cinematic full-bleed
+   hero instead of an absurdly tall portrait video; cover crops the sides
+   only, keeping the centered envelope/card composition fully intact. */
+@media (min-width: 900px) {
+  .hero-video {
+    aspect-ratio: auto;
+    height: min(100vh, 960px);
+  }
 }
 
 .tap-hint {
@@ -295,20 +306,19 @@ body.opened .scroll-cue {
 .countdown-arch-wrap {
   position: relative;
   width: 100%;
-  max-width: none;
-  margin: 0;
+  max-width: min(100%, 720px);
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: min(78svh, 36rem);
 }
 
 .countdown-arch {
   position: relative;
   display: block;
   width: 100%;
-  height: auto;
-  max-height: min(78svh, 36rem);
+  height: 100%;
   object-fit: contain;
   pointer-events: none;
   opacity: 0;
