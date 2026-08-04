@@ -173,7 +173,7 @@ body:not(.opened) .hero {
   width: 100%;
   /* Mobile/tablet: native 720x1280 aspect, fully uncropped — the whole
      composition (envelope + card) stays visible exactly as animated. */
-  aspect-ratio: 1080 / 1922;
+  aspect-ratio: 478 / 850;
   object-fit: cover;
   object-position: center;
   display: block;
