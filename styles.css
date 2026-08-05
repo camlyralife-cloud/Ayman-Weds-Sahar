@@ -274,32 +274,19 @@ body:not(.opened) .hero {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.55rem 1.1rem;
-  border-radius: 999px;
-  background: rgba(18, 16, 26, 0.4);
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
   color: #fff;
-  text-decoration: none;
   font-size: 0.72rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   animation: bob 2.4s ease-in-out infinite;
-  transition: color 0.3s ease, opacity 0.6s ease, background 0.3s ease;
+  transition: opacity 0.6s ease;
   opacity: 0;
   pointer-events: none;
 }
 
 body.opened .scroll-cue {
   opacity: 1;
-  pointer-events: auto;
-}
-
-.scroll-cue:hover {
-  color: var(--gold);
-  background: rgba(18, 16, 26, 0.55);
 }
 
 @keyframes bob {
@@ -1000,10 +987,6 @@ h2.script {
 .timeline-row,
 .intro {
   -webkit-tap-highlight-color: transparent;
-}
-
-.scroll-cue:active {
-  transform: translate(-50%, 0) scale(0.88);
 }
 
 /* Full-bleed card sections (gifts, closing) */
