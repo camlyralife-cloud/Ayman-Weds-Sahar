@@ -168,7 +168,13 @@ if (audioEl) {
 
   updateMusicToggle();
   persistMusicState();
-  startMusic();
+
+  // Best-effort: try playing immediately on page load, before any tap.
+  // Most mobile browsers block this and the .catch() below is expected —
+  // the gesture listeners above are the real, reliable trigger. But some
+  // browsers (desktop, or returning visitors with site engagement) do allow
+  // it, so we attempt it for free instead of always waiting for a tap.
+  startMusic({ force: true });
 }
 
 const weddingDate = new Date('2026-09-19T19:30:00').getTime();
