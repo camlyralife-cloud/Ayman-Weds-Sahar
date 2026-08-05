@@ -109,16 +109,15 @@ if (audioEl) {
   audioEl.loop = true;
   audioEl.setAttribute('playsinline', 'true');
 
-  // Defer eager buffering until the browser is idle so the music file (2.5MB)
-  // doesn't compete with critical page resources on first load.
-  const startMusicBuffering = () => {
-    audioEl.preload = 'auto';
-  };
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(startMusicBuffering, { timeout: 3000 });
-  } else {
-    setTimeout(startMusicBuffering, 1500);
-  }
+  // Start buffering the music immediately (not deferred to idle). On slow
+  // mobile networks, waiting until the user's tap to even begin fetching
+  // audio data means playback can't start fast enough to stay inside the
+  // browser's "trusted gesture" window, so .play() silently fails. The file
+  // is small (~2.5MB) and audio is core to the experience, so we trade a
+  // little upfront bandwidth for reliable playback on the first tap.
+  audioEl.src = musicAudioSrc;
+  audioEl.preload = 'auto';
+  audioEl.load();
 
   const savedState = readMusicState();
   if (savedState) {
@@ -144,9 +143,13 @@ if (audioEl) {
     }
   });
 
+  // Multiple gesture types as fallbacks — mobile browsers vary in which
+  // event they treat as a "trusted" gesture for unlocking audio playback.
   document.addEventListener('pointerdown', enableMusicFromInteraction, { once: true, passive: true });
-  document.addEventListener('keydown', enableMusicFromInteraction, { once: true });
   document.addEventListener('touchstart', enableMusicFromInteraction, { once: true, passive: true });
+  document.addEventListener('touchend', enableMusicFromInteraction, { once: true, passive: true });
+  document.addEventListener('click', enableMusicFromInteraction, { once: true });
+  document.addEventListener('keydown', enableMusicFromInteraction, { once: true });
 
   if (musicToggle) {
     musicToggle.addEventListener('click', toggleMusic);
@@ -243,8 +246,12 @@ if (heroVideo && heroSection && content) {
     if (opened) return;
     opened = true;
     if (tapHint) tapHint.classList.add('is-hidden');
-    // Video stays muted permanently — music.mp4 (started by the same click,
-    // via the document-level interaction listeners below) is the only audio.
+    // Video stays muted permanently — music.mp4 is the only audio. Called
+    // directly here (not just via the document-level listeners) so it's
+    // guaranteed to run synchronously within this exact trusted gesture.
+    if (typeof enableMusicFromInteraction === 'function') {
+      enableMusicFromInteraction();
+    }
     heroVideo.muted = true;
     heroVideo.play().catch(() => unlockSite());
   });
